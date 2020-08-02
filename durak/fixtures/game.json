@@ -1,0 +1,109 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "anna",
+      "first_name": "Anna",
+      "last_name": "K",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "vasyl",
+      "first_name": "Vasyl",
+      "last_name": "M",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "igor",
+      "first_name": "Igor",
+      "last_name": "V",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "username": "grusha",
+      "first_name": "Grusha",
+      "last_name": "W",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "durak.game",
+    "pk": 1,
+    "fields": {
+      "slug": "abc123"
+    }
+  },
+  {
+    "model": "durak.event",
+    "pk": 1,
+    "fields": {
+      "game": [
+        "abc123"
+      ],
+      "user": [
+        "anna"
+      ],
+      "type": "joined_game",
+      "created_at": "2020-08-01 00:00:01.000000+00",
+      "payload": {}
+    }
+  },
+  {
+    "model": "durak.event",
+    "pk": 2,
+    "fields": {
+      "game": [
+        "abc123"
+      ],
+      "user": [
+        "vasyl"
+      ],
+      "type": "joined_game",
+      "created_at": "2020-08-01 00:00:02.000000+00",
+      "payload": {}
+    }
+  },
+  {
+    "model": "durak.event",
+    "pk": 3,
+    "fields": {
+      "game": [
+        "abc123"
+      ],
+      "user": [
+        "igor"
+      ],
+      "type": "joined_game",
+      "created_at": "2020-08-01 00:00:03.000000+00",
+      "payload": {}
+    }
+  },
+  {
+    "model": "durak.event",
+    "pk": 4,
+    "fields": {
+      "game": [
+        "abc123"
+      ],
+      "user": [
+        "grusha"
+      ],
+      "type": "joined_game",
+      "created_at": "2020-08-01 00:00:04.000000+00",
+      "payload": {}
+    }
+  }
+]
