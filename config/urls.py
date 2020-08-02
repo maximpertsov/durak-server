@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from durak import views
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("api/game/<str:slug>/events", views.EventView.as_view()),
+    path("admin/", admin.site.urls),
 ]
