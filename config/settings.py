@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "durak.apps.DurakConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
