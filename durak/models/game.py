@@ -21,9 +21,6 @@ class GameManager(models.Manager):
 
 
 class Game(models.Model):
-    class Meta:
-        app_label = "durak"
-
     objects = GameManager()
     slug = models.CharField(max_length=64, unique=True, editable=False)
 
