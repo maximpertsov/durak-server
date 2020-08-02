@@ -16,7 +16,7 @@ def test_get_events_for_game(call_api, game, user, event_factory):
         "events": [
             {
                 "type": "performed_fake_event",
-                "user": user.id,
+                "user": user.username,
                 "payload": {},
                 "server_event": True,
             }

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.generics import ListAPIView
 
@@ -8,6 +9,8 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ["type", "user", "payload"]
+
+    user = serializers.SlugRelatedField("username", queryset=User.objects.all())
 
     def to_representation(self, instance):
         result = super().to_representation(instance)
