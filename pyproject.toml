@@ -7,6 +7,8 @@ authors = ["Maxim Pertsov <maxim.pertsov@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 Django = "^3.0.8"
+psycopg2-binary = "^2.8.5"
+dj-database-url = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
 isort = "^5.2.2"
