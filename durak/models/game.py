@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.crypto import get_random_string
 
@@ -23,6 +24,7 @@ class GameManager(models.Manager):
 class Game(models.Model):
     objects = GameManager()
     slug = models.CharField(max_length=64, unique=True, editable=False)
+    players = models.ManyToManyField(User, through="player")
 
     def natural_key(self):
         return self.slug

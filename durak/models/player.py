@@ -1,13 +1,7 @@
 from django.contrib.auth.models import User
+from django.db import models
 
 
-class Player(User):
-    class Meta:
-        proxy = True
-
-    def games(self, **filters):
-        from durak.models import Game
-
-        return Game.objects.filter(player1=self, **filters).union(
-            Game.objects.filter(player2=self, **filters)
-        )
+class Player(models.Model):
+    game = models.ForeignKey("game", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
