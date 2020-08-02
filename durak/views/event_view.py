@@ -14,7 +14,6 @@ class EventSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         result = super().to_representation(instance)
-        result.update(server_event=True)
         return result
 
 

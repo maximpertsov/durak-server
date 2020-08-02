@@ -14,11 +14,6 @@ def test_get_events_for_game(call_api, game, user, event_factory):
     assert response.status_code == 200
     assert response.json() == {
         "events": [
-            {
-                "type": "performed_fake_event",
-                "user": user.username,
-                "payload": {},
-                "server_event": True,
-            }
+            {"type": "performed_fake_event", "user": user.username, "payload": {}}
         ]
     }
