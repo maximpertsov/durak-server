@@ -16,7 +16,7 @@ register(GameFactory, slug="fakegame123")
 
 
 @pytest.fixture
-def api_client(player):
+def api_client():
     return APIClient()
 
 

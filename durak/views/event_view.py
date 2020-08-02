@@ -11,12 +11,16 @@ class EventSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         result = super().to_representation(instance)
-        # TODO: edit?
         return result
 
 
 class EventView(ListAPIView):
     serializer_class = EventSerializer
+
+    def get(self, *args, **kwargs):
+        result = super().get(*args, **kwargs)
+        result.data = {"events": result.data}
+        return result
 
     def get_queryset(self):
         return Event.objects.filter(game__slug=self.kwargs["slug"])
