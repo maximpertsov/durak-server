@@ -24,10 +24,16 @@ class Rank(models.TextChoices):
     ACE = "ace", "Ace"
 
 
+class CardManager(models.Manager):
+    def get_by_natural_key(self, rank, suit):
+        return self.get(rank=rank, suit=suit)
+
+
 class Card(models.Model):
     class Meta:
         unique_together = [("rank", "suit")]
 
+    objects = CardManager()
     rank = models.CharField(max_length=10, choices=Rank.choices, editable=False)
     suit = models.CharField(max_length=10, choices=Suit.choices, editable=False)
 
