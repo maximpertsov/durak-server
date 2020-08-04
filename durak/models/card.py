@@ -40,8 +40,9 @@ class Card(models.Model):
 
 class DrawCard(models.Model):
     class Meta:
-        ordering = ["sort_key"]
+        ordering = ["game", "sort_key"]
+        unique_together = [("game", "sort_key")]
 
     card = models.ForeignKey(Card, related_name="+", on_delete=models.CASCADE)
-    sort_key = models.PositiveIntegerField(unique=True)
+    sort_key = models.PositiveIntegerField()
     game = models.ForeignKey("game", related_name="draw_pile", on_delete=models.CASCADE)
