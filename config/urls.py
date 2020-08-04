@@ -20,5 +20,6 @@ from durak import views
 
 urlpatterns = [
     path("api/game/<str:slug>/events", views.EventView.as_view()),
+    path("api/game/<str:slug>", views.GameView.as_view()),
     path("admin/", admin.site.urls),
 ]
