@@ -1,0 +1,418 @@
+[
+  {
+    "model": "durak.card",
+    "pk": 1,
+    "fields": {
+      "rank": "2",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 2,
+    "fields": {
+      "rank": "2",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 3,
+    "fields": {
+      "rank": "2",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 4,
+    "fields": {
+      "rank": "2",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 5,
+    "fields": {
+      "rank": "3",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 6,
+    "fields": {
+      "rank": "3",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 7,
+    "fields": {
+      "rank": "3",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 8,
+    "fields": {
+      "rank": "3",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 9,
+    "fields": {
+      "rank": "4",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 10,
+    "fields": {
+      "rank": "4",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 11,
+    "fields": {
+      "rank": "4",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 12,
+    "fields": {
+      "rank": "4",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 13,
+    "fields": {
+      "rank": "5",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 14,
+    "fields": {
+      "rank": "5",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 15,
+    "fields": {
+      "rank": "5",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 16,
+    "fields": {
+      "rank": "5",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 17,
+    "fields": {
+      "rank": "6",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 18,
+    "fields": {
+      "rank": "6",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 19,
+    "fields": {
+      "rank": "6",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 20,
+    "fields": {
+      "rank": "6",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 21,
+    "fields": {
+      "rank": "7",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 22,
+    "fields": {
+      "rank": "7",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 23,
+    "fields": {
+      "rank": "7",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 24,
+    "fields": {
+      "rank": "7",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 25,
+    "fields": {
+      "rank": "8",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 26,
+    "fields": {
+      "rank": "8",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 27,
+    "fields": {
+      "rank": "8",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 28,
+    "fields": {
+      "rank": "8",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 29,
+    "fields": {
+      "rank": "9",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 30,
+    "fields": {
+      "rank": "9",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 31,
+    "fields": {
+      "rank": "9",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 32,
+    "fields": {
+      "rank": "9",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 33,
+    "fields": {
+      "rank": "10",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 34,
+    "fields": {
+      "rank": "10",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 35,
+    "fields": {
+      "rank": "10",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 36,
+    "fields": {
+      "rank": "10",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 37,
+    "fields": {
+      "rank": "jack",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 38,
+    "fields": {
+      "rank": "jack",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 39,
+    "fields": {
+      "rank": "jack",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 40,
+    "fields": {
+      "rank": "jack",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 41,
+    "fields": {
+      "rank": "queen",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 42,
+    "fields": {
+      "rank": "queen",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 43,
+    "fields": {
+      "rank": "queen",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 44,
+    "fields": {
+      "rank": "queen",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 45,
+    "fields": {
+      "rank": "king",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 46,
+    "fields": {
+      "rank": "king",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 47,
+    "fields": {
+      "rank": "king",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 48,
+    "fields": {
+      "rank": "king",
+      "suit": "spades"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 49,
+    "fields": {
+      "rank": "ace",
+      "suit": "hearts"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 50,
+    "fields": {
+      "rank": "ace",
+      "suit": "clubs"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 51,
+    "fields": {
+      "rank": "ace",
+      "suit": "diamonds"
+    }
+  },
+  {
+    "model": "durak.card",
+    "pk": 52,
+    "fields": {
+      "rank": "ace",
+      "suit": "spades"
+    }
+  }
+]
