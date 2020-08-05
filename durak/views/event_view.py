@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.generics import ListAPIView
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.viewsets import GenericViewSet
 
 from durak.models import Event
 
@@ -18,11 +19,11 @@ class EventSerializer(serializers.ModelSerializer):
         return result
 
 
-class EventView(ListAPIView):
+class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):
     serializer_class = EventSerializer
 
-    def get(self, *args, **kwargs):
-        result = super().get(*args, **kwargs)
+    def list(self, *args, **kwargs):
+        result = super().list(*args, **kwargs)
         result.data = {"events": result.data}
         return result
 
