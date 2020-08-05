@@ -3,20 +3,16 @@ from rest_framework import serializers
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-from durak.models import Event
+from durak.models import Event, Game
 
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ["type", "user", "payload"]
+        fields = ["type", "game", "user", "payload"]
 
+    game = serializers.SlugRelatedField("slug", queryset=Game.objects.all())
     user = serializers.SlugRelatedField("username", queryset=User.objects.all())
-
-    def to_representation(self, instance):
-        result = super().to_representation(instance)
-        result["payload"].update(user=result.pop("user"))
-        return result
 
 
 class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):
