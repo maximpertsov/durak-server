@@ -13,5 +13,5 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DATABASES = {"default": dj_database_url.config(conn_max_age=600)}
 
 # CORS configuration
-CLIENT_DOMAIN = os.environ["CLIENT_DOMAIN"]
-CORS_ORIGIN_WHITELIST = ["https://{}".format(CLIENT_DOMAIN)]
+CLIENT_DOMAINS = os.environ.get("CLIENT_DOMAIN", '').split(',')
+CORS_ORIGIN_WHITELIST = ["https://{}".format(domain) for domain in CLIENT_DOMAINS]
