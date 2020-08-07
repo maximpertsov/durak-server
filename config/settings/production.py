@@ -15,3 +15,7 @@ DATABASES = {"default": dj_database_url.config(conn_max_age=600)}
 # CORS configuration
 CLIENT_DOMAIN = os.environ["CLIENT_DOMAIN"]
 CORS_ORIGIN_WHITELIST = ["https://{}".format(CLIENT_DOMAIN)]
+
+# CSRF
+CSRF_COOKIE_DOMAIN = CLIENT_DOMAIN
+CSRF_TRUSTED_ORIGINS = [CLIENT_DOMAIN]
