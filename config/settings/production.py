@@ -4,7 +4,7 @@ import dj_database_url
 from config.settings.base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ["xdurak.herokuapp.com"]
+ALLOWED_HOSTS = ["api.xdurak.xyz, xdurak.herokuapp.com"]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
