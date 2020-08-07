@@ -14,4 +14,4 @@ DATABASES = {"default": dj_database_url.config(conn_max_age=600)}
 
 # CORS configuration
 CLIENT_DOMAINS = os.environ.get("CLIENT_DOMAIN", '').split(',')
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ["https://{}".format(domain) for domain in CLIENT_DOMAINS]
