@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "b7ivqxn9b!%bb41f5-yycp^g-*s$@$1=n_tu23-#tvgg=dom)n"
+SECRET_KEY = "secret"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,12 +75,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {"default": dj_database_url.config(conn_max_age=600)}
-
+DATABASES = {
+    "default": dj_database_url.config(
+        default="postgres://durak:test@localhost:5432/durak", conn_max_age=600
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -115,5 +116,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # CORS
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = ["http://localhost:3003"]
