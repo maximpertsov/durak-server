@@ -40,10 +40,37 @@
     }
   },
   {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "username": "mariel",
+      "first_name": "Mariel",
+      "last_name": "P",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+      "username": "maxim",
+      "first_name": "Maxim",
+      "last_name": "P",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
     "model": "durak.game",
     "pk": 1,
     "fields": {
       "slug": "abc123"
+    }
+  },
+  {
+    "model": "durak.game",
+    "pk": 2,
+    "fields": {
+      "slug": "cdf123"
     }
   },
   {
@@ -91,6 +118,30 @@
       ],
       "user": [
         "grusha"
+      ]
+    }
+  },
+  {
+    "model": "durak.player",
+    "pk": 5,
+    "fields": {
+      "game": [
+        "cdf123"
+      ],
+      "user": [
+        "mariel"
+      ]
+    }
+  },
+  {
+    "model": "durak.player",
+    "pk": 6,
+    "fields": {
+      "game": [
+        "cdf123"
+      ],
+      "user": [
+        "maxim"
       ]
     }
   }
