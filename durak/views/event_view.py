@@ -24,4 +24,4 @@ class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):
         return result
 
     def get_queryset(self):
-        return Event.objects.filter(game__slug=self.kwargs["slug"])
+        return Event.objects.filter(game__slug=self.kwargs["slug"]).order_by("pk")
