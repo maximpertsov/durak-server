@@ -9,7 +9,7 @@ from durak.models import Event, Game
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ["type", "game", "user", "payload", "result"]
+        fields = ["type", "game", "user", "payload", "to_state"]
 
     game = serializers.SlugRelatedField("slug", queryset=Game.objects.all())
     user = serializers.SlugRelatedField("username", queryset=User.objects.all())
