@@ -13,3 +13,4 @@ class EventFactory(DjangoModelFactory):
     user = SubFactory(UserFactory)
     type = "performed_fake_event"
     payload = {}
+    to_state = {}
