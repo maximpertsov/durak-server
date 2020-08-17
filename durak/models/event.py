@@ -12,3 +12,4 @@ class Event(models.Model):
     game = models.ForeignKey("game", related_name="event_set", on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name="+", on_delete=models.CASCADE)
     payload = JSONField()
+    to_state = JSONField()

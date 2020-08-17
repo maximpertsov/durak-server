@@ -9,7 +9,7 @@ from durak.models import Event, Game
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ["type", "game", "user", "payload"]
+        fields = ["type", "game", "user", "payload", "to_state"]
 
     game = serializers.SlugRelatedField("slug", queryset=Game.objects.all())
     user = serializers.SlugRelatedField("username", queryset=User.objects.all())
@@ -24,4 +24,4 @@ class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):
         return result
 
     def get_queryset(self):
-        return Event.objects.filter(game__slug=self.kwargs["slug"])
+        return Event.objects.filter(game__slug=self.kwargs["slug"]).order_by("pk")

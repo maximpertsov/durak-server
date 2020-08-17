@@ -121,7 +121,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # CORS
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ["http://localhost:3003"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:3003", "http://localhost:5000"]
 
 # CSRF / Cookies
 
