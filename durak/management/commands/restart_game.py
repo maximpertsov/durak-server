@@ -3,7 +3,7 @@ from random import shuffle
 from django.core.management.base import BaseCommand
 from django.utils.functional import cached_property
 
-from durak.models import Card, DrawCard, Game
+from durak.models import Card, DrawCard, Game, Player
 
 
 class Command(BaseCommand):
@@ -21,22 +21,32 @@ class Command(BaseCommand):
 
         try:
             self.restart_game()
-            self.remove_ranks_below_six()
-            self.write_success(f"Reset Game {self.game}")
         except Game.DoesNotExist as e:
             self.stdout.write(e, self.style.ERROR)
             return
+
+    def restart_game(self):
+        self.delete_events()
+        self.shuffle_cards()
+        self.shuffle_players()
+        self.remove_ranks_below_six()
+        self.write_success(f"Reset Game {self.game}")
+
+    def shuffle_players(self):
+        players = self.game.player_set.all()
+        users = [player.user for player in players]
+        shuffle(users)
+        players.delete()
+        for user in users:
+            Player.objects.create(game=self.game, user=user)
+        self.write_success("Reordered players")
 
     def remove_ranks_below_six(self):
         if not self.low_six:
             return
 
         DrawCard.objects.filter(game__slug=self.slug, card__rank__in="2345").delete()
-        self.write_success(f"Removed all ranks below six in {self.game}")
-
-    def restart_game(self):
-        self.delete_events()
-        self.shuffle_cards()
+        self.write_success("Removed all ranks below six")
 
     def shuffle_cards(self):
         self.game.draw_pile.all().delete()
