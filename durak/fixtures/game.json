@@ -60,6 +60,36 @@
     }
   },
   {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "username": "vadim",
+      "first_name": "Vadim",
+      "last_name": "P",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "username": "andrey",
+      "first_name": "Andrey",
+      "last_name": "P",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+      "username": "svetlana",
+      "first_name": "Svetlana",
+      "last_name": "P",
+      "password": "pbkdf2_sha256$150000$dDPWs54CBWY9$uQ+OVUocBjRzy4RfrRHZvcyGTikxYjMZ/MGOevANPK0="
+    }
+  },
+  {
     "model": "durak.game",
     "pk": 1,
     "fields": {
@@ -71,6 +101,13 @@
     "pk": 2,
     "fields": {
       "slug": "cdf123"
+    }
+  },
+  {
+    "model": "durak.game",
+    "pk": 3,
+    "fields": {
+      "slug": "pertsov"
     }
   },
   {
@@ -142,6 +179,54 @@
       ],
       "user": [
         "maxim"
+      ]
+    }
+  },
+  {
+    "model": "durak.player",
+    "pk": 7,
+    "fields": {
+      "game": [
+        "pertsov"
+      ],
+      "user": [
+        "maxim"
+      ]
+    }
+  },
+  {
+    "model": "durak.player",
+    "pk": 8,
+    "fields": {
+      "game": [
+        "pertsov"
+      ],
+      "user": [
+        "vadim"
+      ]
+    }
+  },
+  {
+    "model": "durak.player",
+    "pk": 9,
+    "fields": {
+      "game": [
+        "pertsov"
+      ],
+      "user": [
+        "andrey"
+      ]
+    }
+  },
+  {
+    "model": "durak.player",
+    "pk": 10,
+    "fields": {
+      "game": [
+        "pertsov"
+      ],
+      "user": [
+        "svetlana"
       ]
     }
   }
