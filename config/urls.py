@@ -23,6 +23,7 @@ urlpatterns = [
         "api/game/<str:slug>/events",
         views.EventView.as_view({"get": "list", "post": "create"}),
     ),
+    path("api/game/<str:slug>/restart", views.RestartGameView.as_view()),
     path("api/game/<str:slug>", views.GameView.as_view()),
     path("admin/", admin.site.urls),
 ]
