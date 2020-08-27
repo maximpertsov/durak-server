@@ -127,3 +127,10 @@ CORS_ORIGIN_WHITELIST = ["http://localhost:3003", "http://localhost:5000"]
 
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
+
+# JWT
+
+SIMPLE_JWT = {
+    "USER_ID_FIELD": "username",
+    "USER_ID_CLAIM": "user",
+}
