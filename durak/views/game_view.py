@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import AllowAny
 
 from durak.models import DrawCard, Game
 
@@ -26,6 +27,7 @@ class GameSerializer(serializers.ModelSerializer):
 
 
 class GameView(RetrieveAPIView):
+    permission_classes = [AllowAny]
     serializer_class = GameSerializer
     queryset = Game.objects.all()
     lookup_field = "slug"
