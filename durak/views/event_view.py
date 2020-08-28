@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
 from durak.models import Event, Game
@@ -16,6 +17,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):
+    permission_classes = [AllowAny]
     serializer_class = EventSerializer
 
     def list(self, *args, **kwargs):
