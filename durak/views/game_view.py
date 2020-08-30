@@ -9,10 +9,11 @@ from durak.models import DrawCard, Game
 class DrawCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrawCard
-        fields = ["suit", "rank"]
+        fields = ["suit", "rank", "card"]
 
     suit = serializers.CharField(source="card.suit")
     rank = serializers.CharField(source="card.rank")
+    card = serializers.CharField(source="card.abbreviated", read_only=True)
 
 
 class GameSerializer(serializers.ModelSerializer):

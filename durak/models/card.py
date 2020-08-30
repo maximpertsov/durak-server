@@ -43,6 +43,12 @@ class Card(models.Model):
     def __str__(self):
         return f"{self.rank} of {self.suit}"
 
+    def abbreviated(self):
+        short_rank = self.rank if self.rank == "10" else self.rank[0]
+        short_suit = self.suit[0]
+
+        return f"{short_rank}{ short_suit}".upper()
+
 
 class DrawCard(models.Model):
     class Meta:
