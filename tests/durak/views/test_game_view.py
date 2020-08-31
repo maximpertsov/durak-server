@@ -25,7 +25,7 @@ def test_get_game(call_api, game_with_players):
         "players": ["anna", "vasyl", "igor", "grusha"],
         "slug": game_with_players.slug,
         "draw_pile": [
-            {"rank": "ace", "suit": "spades"},
-            {"rank": "2", "suit": "hearts"},
+            {"rank": "ace", "suit": "spades", "card": "AS"},
+            {"rank": "2", "suit": "hearts", "card": "2H"},
         ],
     }
