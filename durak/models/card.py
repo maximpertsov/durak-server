@@ -47,7 +47,7 @@ class Card(models.Model):
         short_rank = self.rank if self.rank == "10" else self.rank[0]
         short_suit = self.suit[0]
 
-        return f"{short_rank}{ short_suit}".upper()
+        return f"{short_rank}{short_suit}".upper()
 
 
 class DrawCard(models.Model):
