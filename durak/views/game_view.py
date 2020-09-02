@@ -26,6 +26,18 @@ class GameSerializer(serializers.ModelSerializer):
     )
     draw_pile = DrawCardSerializer(many=True)
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["trump_suit"] = self._trump_suit(representation)
+        representation["hands"] = self._hands(representation)
+        return representation
+
+    def _trump_suit(self, representation):
+        return representation["draw_pile"][-1].get("suit")
+
+    def _hands(self, representation):
+        return {player: [] for player in representation["players"]}
+
 
 class GameView(RetrieveAPIView):
     permission_classes = [AllowAny]

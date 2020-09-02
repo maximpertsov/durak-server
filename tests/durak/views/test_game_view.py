@@ -23,9 +23,11 @@ def test_get_game(call_api, game_with_players):
     assert response.status_code == 200
     assert response.json() == {
         "players": ["anna", "vasyl", "igor", "grusha"],
+        "hands": {"anna": [], "vasyl": [], "igor": [], "grusha": []},
         "slug": game_with_players.slug,
         "draw_pile": [
             {"rank": "ace", "suit": "spades", "card": "AS"},
             {"rank": "2", "suit": "hearts", "card": "2H"},
         ],
+        "trump_suit": "hearts",
     }
