@@ -21,10 +21,6 @@ class GameVariantSerializer(serializers.ModelSerializer):
         model = GameVariant
         fields = ["lowest_rank", "attack_limit", "with_passing"]
 
-    lowest_rank = serializers.CharField(source="card.lowest_rank")
-    attack_limit = serializers.CharField(source="card.attack_limit")
-    with_passing = serializers.CharField(source="card.with_passing")
-
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:

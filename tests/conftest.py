@@ -1,12 +1,12 @@
 import json
 
+import pytest
+from pytest_factoryboy import LazyFixture, register
 from rest_framework.test import APIClient
 
-import pytest
-from pytest_factoryboy import register
 from tests.factories.card_factory import CardFactory, DrawCardFactory
 from tests.factories.event_factory import EventFactory
-from tests.factories.game_factory import GameFactory
+from tests.factories.game_factory import GameFactory, GameVariantFactory
 from tests.factories.player_factory import PlayerFactory
 from tests.factories.user_factory import UserFactory
 
@@ -19,6 +19,7 @@ register(UserFactory, "igor", username="igor")
 register(UserFactory, "grusha", username="grusha")
 
 register(GameFactory, slug="fakegame123")
+register(GameVariantFactory, game=LazyFixture("game"))
 register(PlayerFactory)
 register(CardFactory)
 register(DrawCardFactory)

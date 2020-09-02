@@ -3,12 +3,22 @@ import pytest
 
 @pytest.fixture
 def game_with_players(
-    game, player_factory, card_factory, draw_card_factory, anna, vasyl, igor, grusha
+    game,
+    player_factory,
+    card_factory,
+    game_variant_factory,
+    draw_card_factory,
+    anna,
+    vasyl,
+    igor,
+    grusha,
 ):
     player_factory(game=game, user=anna)
     player_factory(game=game, user=vasyl)
     player_factory(game=game, user=igor)
     player_factory(game=game, user=grusha)
+
+    game_variant_factory(game=game, lowest_rank="6", attack_limit=6, with_passing=True)
 
     draw_card_factory(game=game, card=card_factory(suit="spades", rank="ace"))
     draw_card_factory(game=game, card=card_factory(suit="hearts", rank="2"))
@@ -30,5 +40,5 @@ def test_get_game(call_api, game_with_players):
             {"rank": "2", "suit": "hearts", "card": "2H"},
         ],
         "trump_suit": "hearts",
-        "variant": None,
+        "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
     }
