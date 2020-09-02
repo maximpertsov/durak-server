@@ -37,6 +37,14 @@ class GameSerializer(serializers.ModelSerializer):
     draw_pile = DrawCardSerializer(many=True)
     variant = GameVariantSerializer(source="gamevariant")
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["trump_suit"] = self._trump_suit(representation)
+        return representation
+
+    def _trump_suit(self, representation):
+        return representation["draw_pile"][-1].get("suit")
+
 
 class GameView(RetrieveAPIView):
     permission_classes = [AllowAny]
