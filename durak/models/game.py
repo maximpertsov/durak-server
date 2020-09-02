@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.crypto import get_random_string
 
+from durak.models.card import Rank
+
 
 class GameManager(models.Manager):
     def _generate_slug(self):
@@ -31,3 +33,16 @@ class Game(models.Model):
 
     def __str__(self):
         return self.slug
+
+
+class GameVariant(models.Model):
+    game = models.OneToOneField(Game, on_delete=models.SET_NULL, null=True)
+    lowest_rank = models.CharField(
+        max_length=10,
+        choices=[(Rank.TWO.value, Rank.TWO.label), (Rank.SIX.value, Rank.SIX.label)],
+        default=Rank.SIX.value,
+    )
+    attack_limit = models.IntegerField(
+        choices=[(6, "Standard"), (100, "Unlimited")], default=6
+    )
+    with_passing = models.BooleanField(default=False)
