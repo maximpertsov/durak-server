@@ -28,4 +28,5 @@ def test_get_game(call_api, game_with_players):
             {"rank": "ace", "suit": "spades", "card": "AS"},
             {"rank": "2", "suit": "hearts", "card": "2H"},
         ],
+        "variant": None,
     }
