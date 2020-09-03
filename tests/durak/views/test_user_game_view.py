@@ -21,6 +21,14 @@ def test_get_user_game(call_api, create_game_with_players, anna, vasyl, igor, gr
     response = call_api("get", "/api/games/me", user=anna)
     assert response.status_code == 200
     assert response.json() == [
-        {"slug": game1.slug, "players": ["anna", "vasyl"]},
-        {"slug": game2.slug, "players": ["anna", "vasyl", "igor"]},
+        {
+            "slug": game1.slug,
+            "players": ["anna", "vasyl"],
+            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
+        },
+        {
+            "slug": game2.slug,
+            "players": ["anna", "vasyl", "igor"],
+            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
+        },
     ]
