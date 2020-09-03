@@ -3,16 +3,18 @@ from rest_framework import serializers
 from rest_framework.generics import ListAPIView
 
 from durak.models import Game
+from durak.views.game_view import GameVariantSerializer
 
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ["slug", "players"]
+        fields = ["slug", "players", "variant"]
 
     players = serializers.SlugRelatedField(
         "username", queryset=User.objects.all(), many=True
     )
+    variant = GameVariantSerializer()
 
 
 class UserGameView(ListAPIView):
