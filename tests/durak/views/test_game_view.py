@@ -6,7 +6,6 @@ def game_with_players(
     game,
     player_factory,
     card_factory,
-    game_variant_factory,
     draw_card_factory,
     anna,
     vasyl,
@@ -17,8 +16,6 @@ def game_with_players(
     player_factory(game=game, user=vasyl)
     player_factory(game=game, user=igor)
     player_factory(game=game, user=grusha)
-
-    game_variant_factory(game=game, lowest_rank="6", attack_limit=6, with_passing=True)
 
     draw_card_factory(game=game, card=card_factory(suit="spades", rank="ace"))
     draw_card_factory(game=game, card=card_factory(suit="hearts", rank="2"))

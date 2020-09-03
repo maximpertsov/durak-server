@@ -31,7 +31,7 @@ class GameSerializer(serializers.ModelSerializer):
         "username", queryset=User.objects.all(), many=True
     )
     draw_pile = DrawCardSerializer(many=True)
-    variant = GameVariantSerializer(source="gamevariant")
+    variant = GameVariantSerializer()
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

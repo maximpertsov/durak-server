@@ -19,7 +19,7 @@ register(UserFactory, "igor", username="igor")
 register(UserFactory, "grusha", username="grusha")
 
 register(GameFactory, slug="fakegame123")
-register(GameVariantFactory, game=LazyFixture("game"))
+register(GameVariantFactory)
 register(PlayerFactory)
 register(CardFactory)
 register(DrawCardFactory)

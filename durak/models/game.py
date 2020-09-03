@@ -23,20 +23,10 @@ class GameManager(models.Manager):
         return self.get(slug=slug)
 
 
-class Game(models.Model):
-    objects = GameManager()
-    slug = models.CharField(max_length=64, unique=True, editable=False)
-    players = models.ManyToManyField(User, through="player")
-
-    def natural_key(self):
-        return self.slug
-
-    def __str__(self):
-        return self.slug
-
-
 class GameVariant(models.Model):
-    game = models.OneToOneField(Game, on_delete=models.SET_NULL, null=True)
+    class Meta:
+        unique_together = [("lowest_rank", "attack_limit", "with_passing")]
+
     lowest_rank = models.CharField(
         max_length=10,
         choices=[(Rank.TWO.value, Rank.TWO.label), (Rank.SIX.value, Rank.SIX.label)],
@@ -46,3 +36,16 @@ class GameVariant(models.Model):
         choices=[(6, "Standard"), (100, "Unlimited")], default=6
     )
     with_passing = models.BooleanField(default=False)
+
+
+class Game(models.Model):
+    objects = GameManager()
+    slug = models.CharField(max_length=64, unique=True, editable=False)
+    players = models.ManyToManyField(User, through="player")
+    variant = models.ForeignKey(GameVariant, on_delete=models.SET_NULL, null=True)
+
+    def natural_key(self):
+        return self.slug
+
+    def __str__(self):
+        return self.slug
