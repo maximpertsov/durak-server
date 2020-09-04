@@ -1,10 +1,9 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from durak.models import DrawCard, Game, GameVariant
+from durak.models import DrawCard, Game, GameVariant, Player
 from durak.operations.restart_game import RestartGame
 
 
@@ -27,14 +26,20 @@ class GameVariantSerializer(serializers.ModelSerializer):
         return []
 
 
+class PlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Player
+        fields = ["user"]
+
+    user = serializers.CharField(source="user.username")
+
+
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ["slug", "players", "draw_pile", "variant"]
 
-    players = serializers.SlugRelatedField(
-        "username", queryset=User.objects.all(), many=True
-    )
+    players = PlayerSerializer(source="player_set", many=True)
     draw_pile = DrawCardSerializer(many=True)
     variant = GameVariantSerializer()
 
@@ -48,9 +53,13 @@ class GameSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        representation["players"] = self._flattened_and_ordered_players(representation)
         representation["trump_suit"] = self._trump_suit(representation)
         representation["hands"] = self._hands(representation)
         return representation
+
+    def _flattened_and_ordered_players(self, representation):
+        return [player["user"] for player in representation["players"]]
 
     def _trump_suit(self, representation):
         return representation["draw_pile"][-1].get("suit")
