@@ -42,7 +42,7 @@ class Game(models.Model):
     objects = GameManager()
     slug = models.CharField(max_length=64, unique=True, editable=False)
     players = models.ManyToManyField(User, through="player")
-    variant = models.ForeignKey(GameVariant, on_delete=models.SET_NULL, null=True)
+    variant = models.ForeignKey(GameVariant, on_delete=models.PROTECT)
 
     def natural_key(self):
         return self.slug
