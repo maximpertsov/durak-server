@@ -43,11 +43,19 @@ class GameSerializer(serializers.ModelSerializer):
     draw_pile = DrawCardSerializer(many=True)
     variant = GameVariantSerializer()
 
+    def validate(self, data):
+        print(f"variant before {dict(data['variant'])}")
+        result = super().validate(data)
+        print(f"variant after {dict(data['variant'])}")
+        return result
+
     def update(self, instance, validated_data):
-        instance.variant, _ = GameVariant.objects.get_or_create(
-            **validated_data["variant"]
-        )
+        print(f"variant data {dict(validated_data['variant'])}")
+        variant, _ = GameVariant.objects.get_or_create(**validated_data["variant"])
+        print(f"fetch variant {variant.attack_limit}")
+        instance.variant = variant
         instance.save()
+        print(f"saved variant {instance.variant.attack_limit}")
         RestartGame.handle(game=instance)
         return instance
 
