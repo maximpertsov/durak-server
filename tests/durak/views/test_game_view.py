@@ -41,7 +41,7 @@ def test_restart_game(call_api, game_with_players):
         "patch",
         url,
         payload={
-            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True}
+            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True}
         },
     )
     assert response.status_code == 200
@@ -54,6 +54,6 @@ def test_restart_game(call_api, game_with_players):
     assert data["trump_suit"] == "spades"
     assert data["variant"] == {
         "lowest_rank": "6",
-        "attack_limit": 6,
+        "attack_limit": 100,
         "with_passing": True,
     }
