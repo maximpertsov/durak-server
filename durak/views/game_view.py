@@ -44,9 +44,8 @@ class GameSerializer(serializers.ModelSerializer):
     variant = GameVariantSerializer()
 
     def update(self, instance, validated_data):
-        instance.variant, _ = GameVariant.objects.get_or_create(
-            **validated_data["variant"]
-        )
+        variant, _ = GameVariant.objects.get_or_create(**validated_data["variant"])
+        instance.variant = variant
         instance.save()
         RestartGame.handle(game=instance)
         return instance
