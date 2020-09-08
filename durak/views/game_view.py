@@ -50,12 +50,18 @@ class GameSerializer(serializers.ModelSerializer):
         return representation
 
     def _draw_pile(self, instance):
+        # shuffle
         cards = [
             {"card": card.abbreviated(), "suit": card.suit, "rank": card.rank}
             for card in Card.objects.all()
         ]
         Random(instance.seed).shuffle(cards)
-        return cards
+
+        # filter cards
+        lowest_rank = instance.variant.lowest_rank
+        return [
+            card for card in cards if lowest_rank == "2" or card["rank"] not in "2345"
+        ]
 
     def _flattened_and_ordered_players(self, representation):
         return [player["user"] for player in representation["players"]]
