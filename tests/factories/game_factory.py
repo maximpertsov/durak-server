@@ -20,3 +20,4 @@ class GameFactory(DjangoModelFactory):
 
     slug = Sequence(lambda n: "game{}".format(n))
     variant = SubFactory(GameVariantFactory)
+    seed = 0.1

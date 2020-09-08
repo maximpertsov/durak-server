@@ -1,7 +1,6 @@
-from durak.models import Card, DrawCard
-from factory import DjangoModelFactory, Sequence, SubFactory
+from factory import DjangoModelFactory
 
-from .game_factory import GameFactory
+from durak.models import Card
 
 
 class CardFactory(DjangoModelFactory):
@@ -14,12 +13,3 @@ class CardFactory(DjangoModelFactory):
 
     rank = "jack"
     suit = "hearts"
-
-
-class DrawCardFactory(DjangoModelFactory):
-    class Meta:
-        model = DrawCard
-
-    game = SubFactory(GameFactory)
-    card = SubFactory(CardFactory)
-    sort_key = Sequence(lambda n: n + 1)
