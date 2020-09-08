@@ -1,20 +1,12 @@
+from random import Random
+
 from rest_framework import serializers
 from rest_framework.mixins import RetrieveModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from durak.models import DrawCard, Game, GameVariant, Player
+from durak.models import Card, Game, GameVariant, Player
 from durak.operations.restart_game import RestartGame
-
-
-class DrawCardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DrawCard
-        fields = ["suit", "rank", "card"]
-
-    suit = serializers.CharField(source="card.suit")
-    rank = serializers.CharField(source="card.rank")
-    card = serializers.CharField(source="card.abbreviated", read_only=True)
 
 
 class GameVariantSerializer(serializers.ModelSerializer):
@@ -37,10 +29,9 @@ class PlayerSerializer(serializers.ModelSerializer):
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ["slug", "players", "draw_pile", "variant"]
+        fields = ["slug", "players", "variant"]
 
     players = PlayerSerializer(source="player_set", many=True)
-    draw_pile = DrawCardSerializer(many=True)
     variant = GameVariantSerializer()
 
     def update(self, instance, validated_data):
@@ -52,10 +43,19 @@ class GameSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        representation["draw_pile"] = self._draw_pile(instance)
         representation["players"] = self._flattened_and_ordered_players(representation)
         representation["trump_suit"] = self._trump_suit(representation)
         representation["hands"] = self._hands(representation)
         return representation
+
+    def _draw_pile(self, instance):
+        cards = [
+            {"card": card.abbreviated(), "suit": card.suit, "rank": card.rank}
+            for card in Card.objects.all()
+        ]
+        Random(instance.seed).shuffle(cards)
+        return cards
 
     def _flattened_and_ordered_players(self, representation):
         return [player["user"] for player in representation["players"]]
