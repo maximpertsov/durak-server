@@ -1,6 +1,6 @@
-from random import shuffle
+from random import random, shuffle
 
-from durak.models import Card, DrawCard, Player
+from durak.models import Player
 
 
 class RestartGame:
@@ -15,7 +15,6 @@ class RestartGame:
         self.delete_events()
         self.shuffle_cards()
         self.shuffle_players()
-        self.remove_ranks_below_six()
 
     def shuffle_players(self):
         players = self._game.player_set.all()
@@ -25,21 +24,9 @@ class RestartGame:
         for user in users:
             Player.objects.create(game=self._game, user=user)
 
-    def remove_ranks_below_six(self):
-        if not self._lowest_rank() == "6":
-            return
-
-        DrawCard.objects.filter(game=self._game, card__rank__in="2345").delete()
-
     def shuffle_cards(self):
-        self._game.draw_pile.all().delete()
-        card_ids = list(Card.objects.values_list("pk", flat=True))
-        shuffle(card_ids)
-        for sort_key, card_id in enumerate(card_ids):
-            DrawCard.objects.create(game=self._game, card_id=card_id, sort_key=sort_key)
+        self._game.seed = random()
+        self._game.save()
 
     def delete_events(self):
         self._game.event_set.all().delete()
-
-    def _lowest_rank(self):
-        return self._game.variant.lowest_rank

@@ -1,9 +1,8 @@
-from random import shuffle
-
 from django.core.management.base import BaseCommand
 from django.utils.functional import cached_property
 
-from durak.models import Card, DrawCard, Game, Player
+from durak.models import Game, GameVariant
+from durak.operations.restart_game import RestartGame
 
 
 class Command(BaseCommand):
@@ -20,43 +19,28 @@ class Command(BaseCommand):
         self.low_six = low_six
 
         try:
+            self.update_variant()
             self.restart_game()
         except Game.DoesNotExist as e:
-            self.stdout.write(e, self.style.ERROR)
+            self.write_error(e.message)
             return
 
     def restart_game(self):
-        self.delete_events()
-        self.shuffle_cards()
-        self.shuffle_players()
-        self.remove_ranks_below_six()
+        RestartGame.handle(game=self.game)
         self.write_success(f"Reset Game {self.game}")
 
-    def shuffle_players(self):
-        players = self.game.player_set.all()
-        users = [player.user for player in players]
-        shuffle(users)
-        players.delete()
-        for user in users:
-            Player.objects.create(game=self.game, user=user)
-        self.write_success("Reordered players")
-
-    def remove_ranks_below_six(self):
+    def update_variant(self):
         if not self.low_six:
             return
 
-        DrawCard.objects.filter(game__slug=self.slug, card__rank__in="2345").delete()
+        variant, _ = GameVariant.objects.get_or_create(
+            lowest_rank="6",
+            attack_limit=self.game.variant.attack_limit,
+            with_passing=self.game.variant.with_passing,
+        )
+        self.game.variant = variant
+        self.game.save()
         self.write_success("Removed all ranks below six")
-
-    def shuffle_cards(self):
-        self.game.draw_pile.all().delete()
-        card_ids = list(Card.objects.values_list("pk", flat=True))
-        shuffle(card_ids)
-        for sort_key, card_id in enumerate(card_ids):
-            DrawCard.objects.create(game=self.game, card_id=card_id, sort_key=sort_key)
-
-    def delete_events(self):
-        self.game.event_set.all().delete()
 
     @cached_property
     def game(self):
