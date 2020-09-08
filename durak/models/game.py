@@ -1,3 +1,5 @@
+from random import random
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.crypto import get_random_string
@@ -17,6 +19,7 @@ class GameManager(models.Manager):
 
     def create(self, slug=None, **kwargs):
         kwargs["slug"] = self._generate_slug() if slug is None else slug
+        kwargs["seed"] = random()
         return super().create(**kwargs)
 
     def get_by_natural_key(self, slug):
@@ -43,6 +46,7 @@ class Game(models.Model):
     slug = models.CharField(max_length=64, unique=True, editable=False)
     players = models.ManyToManyField(User, through="player")
     variant = models.ForeignKey(GameVariant, on_delete=models.PROTECT)
+    seed = models.DecimalField(max_digits=10, decimal_places=10)
 
     def natural_key(self):
         return self.slug
