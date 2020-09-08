@@ -7,4 +7,4 @@ isort:skip_file
 from .player import Player
 from .event import Event
 from .game import Game, GameVariant
-from .card import Card, DrawCard
+from .card import Card

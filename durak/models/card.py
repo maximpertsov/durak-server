@@ -48,13 +48,3 @@ class Card(models.Model):
         short_suit = self.suit[0]
 
         return f"{short_rank}{short_suit}".upper()
-
-
-class DrawCard(models.Model):
-    class Meta:
-        ordering = ["game", "sort_key"]
-        unique_together = [("game", "sort_key")]
-
-    card = models.ForeignKey(Card, related_name="+", on_delete=models.CASCADE)
-    sort_key = models.PositiveIntegerField()
-    game = models.ForeignKey("game", related_name="draw_pile", on_delete=models.CASCADE)

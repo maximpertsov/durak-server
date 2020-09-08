@@ -1,10 +1,10 @@
 import json
 
 import pytest
-from pytest_factoryboy import LazyFixture, register
+from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
-from tests.factories.card_factory import CardFactory, DrawCardFactory
+from tests.factories.card_factory import CardFactory
 from tests.factories.event_factory import EventFactory
 from tests.factories.game_factory import GameFactory, GameVariantFactory
 from tests.factories.player_factory import PlayerFactory
@@ -22,7 +22,6 @@ register(GameFactory, slug="fakegame123")
 register(GameVariantFactory)
 register(PlayerFactory)
 register(CardFactory)
-register(DrawCardFactory)
 
 
 @pytest.fixture
