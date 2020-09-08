@@ -25,6 +25,7 @@ urlpatterns = [
         views.EventView.as_view({"get": "list", "post": "create"}),
     ),
     path("api/game/<str:slug>/restart", views.RestartGameView.as_view()),
+    path("api/game", views.GameView.as_view({"post": "create"}),),
     path(
         "api/game/<str:slug>",
         views.GameView.as_view({"get": "retrieve", "patch": "partial_update"}),
