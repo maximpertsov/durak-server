@@ -52,9 +52,7 @@ class Game(models.Model):
     players = models.ManyToManyField(User, through="player")
     variant = models.ForeignKey(GameVariant, on_delete=models.PROTECT)
     seed = models.DecimalField(max_digits=10, decimal_places=10)
-    result = models.OneToOneField(
-        GameResult, related_name="game", null=True, on_delete=models.SET_NULL
-    )
+    result = models.OneToOneField(GameResult, null=True, on_delete=models.SET_NULL)
 
     def natural_key(self):
         return self.slug
