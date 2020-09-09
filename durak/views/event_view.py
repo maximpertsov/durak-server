@@ -4,7 +4,7 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from durak.models import Event, Game
+from durak.models import Event, Game, GameResult
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -14,6 +14,21 @@ class EventSerializer(serializers.ModelSerializer):
 
     game = serializers.SlugRelatedField("slug", queryset=Game.objects.all())
     user = serializers.SlugRelatedField("username", queryset=User.objects.all())
+
+    def create(self, validated_data):
+        event = super().create(validated_data)
+        self._finished_game(event)
+        return event
+
+    def _finished_game(self, event):
+        durak = event.to_state.get("durak")
+        if not durak:
+            return
+
+        event.game.result = GameResult.objects.create(
+            durak=User.objects.get(username=durak)
+        )
+        event.game.save()
 
 
 class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):

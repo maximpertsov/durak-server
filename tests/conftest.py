@@ -6,7 +6,8 @@ from rest_framework.test import APIClient
 
 from tests.factories.card_factory import CardFactory
 from tests.factories.event_factory import EventFactory
-from tests.factories.game_factory import GameFactory, GameVariantFactory
+from tests.factories.game_factory import (GameFactory, GameResultFactory,
+                                          GameVariantFactory)
 from tests.factories.player_factory import PlayerFactory
 from tests.factories.user_factory import UserFactory
 
@@ -20,6 +21,7 @@ register(UserFactory, "grusha", username="grusha")
 
 register(GameFactory, slug="fakegame123")
 register(GameVariantFactory)
+register(GameResultFactory)
 register(PlayerFactory)
 register(CardFactory)
 

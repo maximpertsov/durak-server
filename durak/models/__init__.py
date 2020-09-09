@@ -6,5 +6,5 @@ isort:skip_file
 
 from .player import Player
 from .event import Event
-from .game import Game, GameVariant
+from .game import Game, GameVariant, GameResult
 from .card import Card

@@ -21,4 +21,4 @@ class UserGameView(ListAPIView):
     serializer_class = GameSerializer
 
     def get_queryset(self):
-        return Game.objects.filter(players=self.request.user)
+        return Game.objects.filter(players=self.request.user, result__isnull=True)
