@@ -32,3 +32,25 @@ def test_get_user_game(call_api, create_game_with_players, anna, vasyl, igor, gr
             "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
         },
     ]
+
+
+@pytest.mark.django_db
+def test_get_active_user_games(
+    call_api, create_game_with_players, anna, vasyl, igor, grusha, game_result_factory
+):
+    game1 = create_game_with_players(anna, vasyl)
+    game2 = create_game_with_players(anna, vasyl, igor)
+    create_game_with_players(vasyl, igor, grusha)
+
+    game2.result = game_result_factory(durak=igor)
+    game2.save()
+
+    response = call_api("get", "/api/games/me", user=anna)
+    assert response.status_code == 200
+    assert response.json() == [
+        {
+            "slug": game1.slug,
+            "players": ["anna", "vasyl"],
+            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
+        },
+    ]

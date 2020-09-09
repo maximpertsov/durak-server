@@ -1,6 +1,6 @@
 from factory import DjangoModelFactory, Sequence, SubFactory
 
-from durak.models import Game, GameVariant
+from durak.models import Game, GameResult, GameVariant
 
 
 class GameVariantFactory(DjangoModelFactory):
@@ -11,6 +11,11 @@ class GameVariantFactory(DjangoModelFactory):
     lowest_rank = "6"
     attack_limit = 6
     with_passing = True
+
+
+class GameResultFactory(DjangoModelFactory):
+    class Meta:
+        model = GameResult
 
 
 class GameFactory(DjangoModelFactory):
