@@ -44,33 +44,6 @@ def test_get_game(call_api, game_with_players):
 
 
 @pytest.mark.django_db
-def test_restart_game(call_api, game_with_players):
-    url = "/api/game/{}".format(game_with_players.slug)
-    response = call_api(
-        "patch",
-        url,
-        payload={
-            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True}
-        },
-    )
-    assert response.status_code == 200
-
-    data = response.json()
-    assert set(data["players"]) == set(["anna", "vasyl", "igor", "grusha"])
-    assert data["hands"] == {"anna": [], "vasyl": [], "igor": [], "grusha": []}
-    assert data["slug"] == game_with_players.slug
-    assert data["draw_pile"] == [
-        {"rank": "ace", "suit": "spades", "card": "AS"},
-    ]
-    assert data["trump_suit"] == "spades"
-    assert data["variant"] == {
-        "lowest_rank": "6",
-        "attack_limit": 100,
-        "with_passing": True,
-    }
-
-
-@pytest.mark.django_db
 def test_create_game(call_api, users, cards):
     url = "/api/game"
     response = call_api(

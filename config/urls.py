@@ -24,12 +24,8 @@ urlpatterns = [
         "api/game/<str:slug>/events",
         views.EventView.as_view({"get": "list", "post": "create"}),
     ),
-    path("api/game/<str:slug>/restart", views.RestartGameView.as_view()),
     path("api/game", views.GameView.as_view({"post": "create"}),),
-    path(
-        "api/game/<str:slug>",
-        views.GameView.as_view({"get": "retrieve", "patch": "partial_update"}),
-    ),
+    path("api/game/<str:slug>", views.GameView.as_view({"get": "retrieve"})),
     path("api/games/me", views.UserGameView.as_view()),
     path("api/token", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),

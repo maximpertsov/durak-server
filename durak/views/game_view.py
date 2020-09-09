@@ -1,14 +1,13 @@
 from random import Random
 
+from django.contrib.auth.models import User
 from django.db import transaction
 from rest_framework import serializers
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
 from durak.models import Card, Game, GameVariant, Player
-from durak.operations.restart_game import RestartGame
-from django.contrib.auth.models import User
 
 
 class GameVariantSerializer(serializers.ModelSerializer):
@@ -46,13 +45,6 @@ class GameSerializer(serializers.ModelSerializer):
             )
         return instance
 
-    def update(self, instance, validated_data):
-        variant, _ = GameVariant.objects.get_or_create(**validated_data["variant"])
-        instance.variant = variant
-        instance.save()
-        RestartGame.handle(game=instance)
-        return instance
-
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation["draw_pile"] = self._draw_pile(instance)
@@ -85,7 +77,7 @@ class GameSerializer(serializers.ModelSerializer):
         return {player: [] for player in representation["players"]}
 
 
-class GameView(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+class GameView(CreateModelMixin, RetrieveModelMixin, GenericViewSet):
     permission_classes = [AllowAny]
     serializer_class = GameSerializer
     queryset = Game.objects.all()
