@@ -41,12 +41,18 @@ class GameVariant(models.Model):
     with_passing = models.BooleanField(default=False)
 
 
+class GameResult(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    durak = models.ForeignKey(User, on_delete=models.PROTECT)
+
+
 class Game(models.Model):
     objects = GameManager()
     slug = models.CharField(max_length=64, unique=True, editable=False)
     players = models.ManyToManyField(User, through="player")
     variant = models.ForeignKey(GameVariant, on_delete=models.PROTECT)
     seed = models.DecimalField(max_digits=10, decimal_places=10)
+    result = models.OneToOneField(GameResult, null=True, on_delete=models.SET_NULL)
 
     def natural_key(self):
         return self.slug
