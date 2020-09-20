@@ -65,4 +65,4 @@ class Game(models.Model):
 class GameRequest(models.Model):
     variant = models.ForeignKey(GameVariant, on_delete=models.CASCADE)
     parameters = JSONField()
-    users = models.ManyToManyField(User)
+    players = models.ManyToManyField(User)
