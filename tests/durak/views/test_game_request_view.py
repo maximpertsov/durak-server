@@ -19,22 +19,24 @@ def call_game_request_api(call_api):
     return wrapped
 
 
+@pytest.fixture
+def variant_data():
+    return {"lowest_rank": "6", "attack_limit": 100, "with_passing": True}
+
+
 @pytest.mark.django_db
-def test_create_game_request(call_game_request_api, anna, vasyl):
+def test_create_game_request(call_game_request_api, anna, vasyl, variant_data):
     call_game_request_api("get", user=anna, status_code=200, response_data=[])
     expected_game_request_data = {
         "id": 1,
         "players": [vasyl.username],
         "parameters": {},
-        "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+        "variant": variant_data,
     }
     call_game_request_api(
         "post",
         user=vasyl,
-        payload={
-            "parameters": {},
-            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
-        },
+        payload={"parameters": {}, "variant": variant_data},
         status_code=201,
         response_data=expected_game_request_data,
     )
@@ -44,14 +46,9 @@ def test_create_game_request(call_game_request_api, anna, vasyl):
 
 
 @pytest.mark.django_db
-def test_join_game_request(call_game_request_api, anna, vasyl):
+def test_join_game_request(call_game_request_api, anna, vasyl, variant_data):
     create_response = call_game_request_api(
-        "post",
-        user=vasyl,
-        payload={
-            "parameters": {},
-            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
-        },
+        "post", user=vasyl, payload={"parameters": {}, "variant": variant_data},
     )
 
     game_request_id = create_response.data["id"]
@@ -59,7 +56,7 @@ def test_join_game_request(call_game_request_api, anna, vasyl):
         "id": game_request_id,
         "players": [anna.username, vasyl.username],
         "parameters": {},
-        "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+        "variant": variant_data,
     }
     call_game_request_api(
         "patch",
