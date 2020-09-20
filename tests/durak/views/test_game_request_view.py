@@ -2,42 +2,74 @@
 
 import pytest
 
-# from durak.models import Game, GameRequest
-
 
 @pytest.fixture
-def assert_list_game_requests(call_api):
-    def wrapped(user, response_data):
-        url = "/api/game/request"
-        response = call_api("get", url, user=user)
-        assert response.status_code == 200
-        assert response.json() == response_data
-
-    return wrapped
-
-
-@pytest.fixture
-def assert_create_game_request(call_api):
-    def wrapped(user, payload, response_data):
-        response = call_api("post", "/api/game/request", payload=payload, user=user,)
-        assert response.status_code == 201
-        assert response.data == response_data
+def call_game_request_api(call_api):
+    def wrapped(
+        method, pk=None, user=None, payload=None, status_code=None, response_data=None
+    ):
+        url = "/".join(["/api/game/request", *([str(pk)] if pk else [])])
+        response = call_api(method, url, user=user, payload=payload)
+        if status_code:
+            assert response.status_code == status_code
+        if response_data:
+            assert response.data == response_data
+        return response
 
     return wrapped
 
 
 @pytest.mark.django_db
-def test_create_game_request(
-    call_api, assert_list_game_requests, assert_create_game_request, anna, vasyl
-):
-    assert_list_game_requests(anna, [])
-    payload = {
+def test_create_game_request(call_game_request_api, anna, vasyl):
+    call_game_request_api("get", user=anna, status_code=200, response_data=[])
+    expected_game_request_data = {
+        "id": 1,
+        "players": [vasyl.username],
         "parameters": {},
         "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
     }
-    expected_response = {"id": 1, "players": [vasyl.username], **payload}
-    assert_create_game_request(vasyl, payload, expected_response)
-    assert_list_game_requests(anna, [expected_response])
+    call_game_request_api(
+        "post",
+        user=vasyl,
+        payload={
+            "parameters": {},
+            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+        },
+        status_code=201,
+        response_data=expected_game_request_data,
+    )
+    call_game_request_api(
+        "get", user=anna, status_code=200, response_data=[expected_game_request_data]
+    )
+
+
+@pytest.mark.django_db
+def test_join_game_request(call_game_request_api, anna, vasyl):
+    create_response = call_game_request_api(
+        "post",
+        user=vasyl,
+        payload={
+            "parameters": {},
+            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+        },
+    )
+
+    game_request_id = create_response.data["id"]
+    expected_response = {
+        "id": game_request_id,
+        "players": [anna.username, vasyl.username],
+        "parameters": {},
+        "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+    }
+    call_game_request_api(
+        "patch",
+        pk=game_request_id,
+        user=anna,
+        payload={},
+        status_code=200,
+        response_data=expected_response,
+    )
+
 
 #
 #

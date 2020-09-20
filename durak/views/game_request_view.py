@@ -26,6 +26,12 @@ class GameRequestSerializer(serializers.ModelSerializer):
         instance.players.set([self.get_request_user()])
         return instance
 
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        instance.players.add(self.get_request_user())
+        return instance
+
     def get_request_user(self):
         return self.context["request"].user
 
@@ -39,12 +45,6 @@ class GameRequestSerializer(serializers.ModelSerializer):
             result["game"] = self.context["game"]
         except KeyError:
             return
-
-    def update(self, instance, validated_data):
-        updated_instance = super().update(instance, validated_data)
-        # if updated_instance.player1 and updated_instance.player2:
-        #     self._create_game(updated_instance)
-        return updated_instance
 
     # def _create_game(self, instance):
     #     game = GameSerializer(data=self._game_players(instance))
