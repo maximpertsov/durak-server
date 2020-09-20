@@ -25,33 +25,6 @@ def variant_data():
 
 
 @pytest.mark.django_db
-def test_create_game_request_with_invalid_player_specifications(
-    call_game_request_api, vasyl, variant_data
-):
-    call_game_request_api(
-        "post",
-        user=vasyl,
-        payload={"parameters": {}, "variant": variant_data},
-        status_code=400,
-        response_data={"parameters": ["Must specify either players or player count"]},
-    )
-    call_game_request_api(
-        "post",
-        user=vasyl,
-        payload={"parameters": {"player_count": 1}, "variant": variant_data},
-        status_code=400,
-        response_data={"parameters": ["Player count must be 2-4"]},
-    )
-    call_game_request_api(
-        "post",
-        user=vasyl,
-        payload={"parameters": {"player_count": 5}, "variant": variant_data},
-        status_code=400,
-        response_data={"parameters": ["Player count must be 2-4"]},
-    )
-
-
-@pytest.mark.django_db
 def test_create_game_request(call_game_request_api, anna, vasyl, variant_data):
     call_game_request_api("get", user=anna, status_code=200, response_data=[])
 
@@ -81,7 +54,7 @@ def test_join_game_request(call_game_request_api, anna, vasyl, variant_data):
         "post", user=vasyl, payload={"parameters": parameters, "variant": variant_data},
     )
 
-    game_request_id = create_response.data["id"]
+    game_request_id = create_response.json()["id"]
     expected_response = {
         "id": game_request_id,
         "players": [anna.username, vasyl.username],
@@ -98,96 +71,40 @@ def test_join_game_request(call_game_request_api, anna, vasyl, variant_data):
     )
 
 
-#
-#
-# @pytest.fixture
-# def test_accept_game_request(players, game_request_factory, call_api):
-#     def wrapped(player1, player2, parameters):
-#         game_request = game_request_factory(player1=player1, parameters=parameters)
-#
-#         assert game_request.player2 is None
-#         assert Game.objects.count() == 0
-#
-#         response = call_api(
-#             "patch",
-#             f"/api/game/request/{game_request.pk}",
-#             payload={"player2": player2.username},
-#             user=player2,
-#         )
-#         assert response.status_code == 200
-#         game_request.refresh_from_db()
-#         assert game_request.player2 == player2
-#
-#         Game.objects.count() == 1
-#         game = Game.objects.first()
-#         assert response.data == {
-#             "id": game_request.pk,
-#             "game": game.slug,
-#             "parameters": parameters,
-#             "player1": player1.username,
-#             "player2": player2.username,
-#         }
-#
-#     return wrapped
-#
-#
-# @pytest.mark.django_db
-# def test_accept_game_request_p1_red(players, test_accept_game_request):
-#     player1, player2 = players
-#     test_accept_game_request(player1, player2, {"team": Team.RED.value})
-#
-#     game = Game.objects.first()
-#     assert game.player1 == player1
-#     assert game.player2 == player2
-#
-#
-# @pytest.mark.django_db
-# def test_accept_game_request_p1_black(players, test_accept_game_request):
-#     player1, player2 = players
-#     test_accept_game_request(player1, player2, {"team": Team.BLACK.value})
-#
-#     game = Game.objects.first()
-#     assert game.player1 == player2
-#     assert game.player2 == player1
-#
-#
-# @pytest.mark.django_db
-# def test_accept_game_request_p1_random(players, test_accept_game_request):
-#     player1, player2 = players
-#     test_accept_game_request(player1, player2, {})
-#
-#     game = Game.objects.first()
-#     assert game.player1 in players
-#     assert game.player2 in players and game.player2 != game.player1
-#
-#
-# @pytest.mark.django_db
-# def test_reject_game_request(players, game_request_factory, call_api):
-#     player1, player2 = players
-#     game_request = game_request_factory(player1=player1)
-#
-#     response = call_api("delete", f"/api/game/request/{game_request.pk}", user=player2)
-#     assert response.status_code == 204
-#     with pytest.raises(GameRequest.DoesNotExist):
-#         game_request.refresh_from_db()
-#
-#
-# @pytest.mark.django_db
-# def test_list_game_requests(players, game_request_factory, call_api):
-#     player1, player2 = players
-#     open_game_request = game_request_factory(player1=player1)
-#     game_request_factory(player1=player1, player2=player2)
-#
-#     response = call_api("get", "/api/game/request", user=player2)
-#     assert response.status_code == 200
-#
-#     assert response.data == [
-#         OrderedDict(
-#             {
-#                 "id": open_game_request.pk,
-#                 "player1": player1.username,
-#                 "player2": None,  # TODO: remove this?
-#                 "parameters": open_game_request.parameters,
-#             }
-#         )
-#     ]
+@pytest.mark.django_db
+def test_create_game_request_with_invalid_player_specifications(
+    call_game_request_api, vasyl, variant_data
+):
+    def get_kwargs(parameters, error_message):
+        return {
+            "method": "post",
+            "user": vasyl,
+            "payload": {"parameters": parameters, "variant": variant_data},
+            "status_code": 400,
+            "response_data": {"parameters": [error_message]},
+        }
+
+    call_game_request_api(
+        **get_kwargs({}, "Must specify either players or player count")
+    )
+    call_game_request_api(**get_kwargs({"player_count": 1}, "Player count must be 2-4"))
+    call_game_request_api(**get_kwargs({"player_count": 5}, "Player count must be 2-4"))
+
+
+@pytest.mark.django_db
+def test_join_full_game(call_game_request_api, anna, vasyl, igor, grusha, variant_data):
+    create_response = call_game_request_api(
+        "post",
+        user=anna,
+        payload={"parameters": {"player_count": 3}, "variant": variant_data},
+    )
+    game_request_id = create_response.json()["id"]
+    call_game_request_api("patch", pk=game_request_id, user=vasyl, status_code=200)
+    call_game_request_api("patch", pk=game_request_id, user=igor, status_code=200)
+    call_game_request_api(
+        "patch",
+        pk=game_request_id,
+        user=grusha,
+        status_code=400,
+        response_data=["Game is full"],
+    )
