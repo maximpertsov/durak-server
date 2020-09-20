@@ -26,7 +26,7 @@ urlpatterns = [
     ),
     path(
         "api/game/request/<int:pk>",
-        views.GameRequestView.as_view({"patch": "partial_update", "delete": "destroy"}),
+        views.GameRequestView.as_view({"patch": "partial_update"}),
     ),
     path(
         "api/game/request",

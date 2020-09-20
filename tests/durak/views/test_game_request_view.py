@@ -4,6 +4,14 @@ import pytest
 
 
 @pytest.fixture
+def cards(card_factory):
+    return [
+        card_factory(suit="spades", rank="ace"),
+        card_factory(suit="hearts", rank="2"),
+    ]
+
+
+@pytest.fixture
 def call_game_request_api(call_api):
     def wrapped(
         method, pk=None, user=None, payload=None, status_code=None, response_data=None
@@ -100,7 +108,13 @@ def test_join_full_game(call_game_request_api, anna, vasyl, igor, grusha, varian
     )
     game_request_id = create_response.json()["id"]
     call_game_request_api("patch", pk=game_request_id, user=vasyl, status_code=200)
-    call_game_request_api("patch", pk=game_request_id, user=igor, status_code=200)
+    # game is created
+    assert (
+        "game"
+        in call_game_request_api(
+            "patch", pk=game_request_id, user=igor, status_code=200
+        ).json()
+    )
     call_game_request_api(
         "patch",
         pk=game_request_id,

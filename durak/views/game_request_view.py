@@ -5,7 +5,7 @@ from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin, ListMode
 from rest_framework.viewsets import GenericViewSet
 
 from durak.models import GameRequest, GameVariant
-from durak.views.game_view import GameVariantSerializer
+from durak.views.game_view import GameSerializer, GameVariantSerializer
 
 MIN_PLAYERS = 2
 MAX_PLAYERS = 4
@@ -21,7 +21,7 @@ class GameRequestSerializer(serializers.ModelSerializer):
 
     def validate_parameters(self, value):
         if "player_count" in value:
-            if MIN_PLAYERS <= value['player_count'] <= MAX_PLAYERS:
+            if MIN_PLAYERS <= value["player_count"] <= MAX_PLAYERS:
                 return value
             raise serializers.ValidationError(
                 f"Player count must be {MIN_PLAYERS}-{MAX_PLAYERS}"
@@ -40,19 +40,30 @@ class GameRequestSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance = super().update(instance, validated_data)
 
-        if instance.players.count() >= instance.parameters['player_count']:
+        if instance.players.count() >= instance.parameters["player_count"]:
             raise serializers.ValidationError("Game is full")
 
         instance.players.add(self.get_request_user())
 
+        if instance.players.count() == instance.parameters["player_count"]:
+            self.create_game(instance)
+
         return instance
 
-    # def _create_game(self, instance):
-    #     game = GameSerializer(data=self._game_players(instance))
-    #     game.is_valid(raise_exception=True)
-    #     game.save()
-    #
-    #     self.context['game'] = game.data['slug']
+    def create_game(self, instance):
+        serialized_game = GameSerializer(
+            data={
+                "players": [
+                    {"user": user}
+                    for user in instance.players.values_list("username", flat=True)
+                ],
+                "variant": GameVariantSerializer(instance.variant).data,
+            }
+        )
+        serialized_game.is_valid(raise_exception=True)
+        game = serialized_game.save()
+
+        self.context["game"] = game.slug
 
     def get_request_user(self):
         return self.context["request"].user
@@ -68,25 +79,11 @@ class GameRequestSerializer(serializers.ModelSerializer):
         except KeyError:
             return
 
-    # def _game_players(self, instance):
-    #     players = [instance.player1, instance.player2]
-    #     team = instance.parameters.get("team")
-    #
-    #     if team == Team.RED.value:
-    #         pass
-    #     elif team == Team.BLACK.value:
-    #         players.reverse()
-    #     else:
-    #         shuffle(players)
-    #
-    #     return dict(zip(["player1", "player2"], players))
-
 
 class GameRequestView(
     ListModelMixin,
     CreateModelMixin,
     UpdateModelMixin,
-    DestroyModelMixin,
     GenericViewSet,
 ):
     serializer_class = GameRequestSerializer
