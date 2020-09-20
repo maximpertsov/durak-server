@@ -1,6 +1,7 @@
 from random import random
 
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields.jsonb import JSONField
 from django.db import models
 from django.utils.crypto import get_random_string
 
@@ -59,3 +60,9 @@ class Game(models.Model):
 
     def __str__(self):
         return self.slug
+
+
+class GameRequest(models.Model):
+    variant = models.ForeignKey(GameVariant, on_delete=models.CASCADE)
+    parameters = JSONField()
+    players = models.ManyToManyField(User)
