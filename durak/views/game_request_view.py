@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin, ListModelMixin,
@@ -8,8 +7,6 @@ from rest_framework.viewsets import GenericViewSet
 from durak.models import GameRequest, GameVariant
 from durak.views.game_view import GameVariantSerializer
 
-# from durak.serializers.game_serializer import GameSerializer
-
 
 class GameRequestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +15,14 @@ class GameRequestSerializer(serializers.ModelSerializer):
 
     players = serializers.SlugRelatedField("username", many=True, read_only=True)
     variant = GameVariantSerializer()
+
+    def validate_parameters(self, value):
+        if "player_count" in value:
+            if 1 < value['player_count'] <= 4:
+                return value
+            raise serializers.ValidationError("Player count must be 2-4")
+
+        raise serializers.ValidationError("Must specify either players or player count")
 
     @transaction.atomic
     def create(self, validated_data):

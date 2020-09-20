@@ -13,7 +13,7 @@ def call_game_request_api(call_api):
         if status_code:
             assert response.status_code == status_code
         if response_data:
-            assert response.data == response_data
+            assert response.json() == response_data
         return response
 
     return wrapped
@@ -25,18 +25,47 @@ def variant_data():
 
 
 @pytest.mark.django_db
+def test_create_game_request_with_invalid_player_specifications(
+    call_game_request_api, vasyl, variant_data
+):
+    call_game_request_api(
+        "post",
+        user=vasyl,
+        payload={"parameters": {}, "variant": variant_data},
+        status_code=400,
+        response_data={"parameters": ["Must specify either players or player count"]},
+    )
+    call_game_request_api(
+        "post",
+        user=vasyl,
+        payload={"parameters": {"player_count": 1}, "variant": variant_data},
+        status_code=400,
+        response_data={"parameters": ["Player count must be 2-4"]},
+    )
+    call_game_request_api(
+        "post",
+        user=vasyl,
+        payload={"parameters": {"player_count": 5}, "variant": variant_data},
+        status_code=400,
+        response_data={"parameters": ["Player count must be 2-4"]},
+    )
+
+
+@pytest.mark.django_db
 def test_create_game_request(call_game_request_api, anna, vasyl, variant_data):
     call_game_request_api("get", user=anna, status_code=200, response_data=[])
+
+    parameters = {"player_count": 3}
     expected_game_request_data = {
         "id": 1,
         "players": [vasyl.username],
-        "parameters": {},
+        "parameters": parameters,
         "variant": variant_data,
     }
     call_game_request_api(
         "post",
         user=vasyl,
-        payload={"parameters": {}, "variant": variant_data},
+        payload={"parameters": parameters, "variant": variant_data},
         status_code=201,
         response_data=expected_game_request_data,
     )
@@ -47,15 +76,16 @@ def test_create_game_request(call_game_request_api, anna, vasyl, variant_data):
 
 @pytest.mark.django_db
 def test_join_game_request(call_game_request_api, anna, vasyl, variant_data):
+    parameters = {"player_count": 3}
     create_response = call_game_request_api(
-        "post", user=vasyl, payload={"parameters": {}, "variant": variant_data},
+        "post", user=vasyl, payload={"parameters": parameters, "variant": variant_data},
     )
 
     game_request_id = create_response.data["id"]
     expected_response = {
         "id": game_request_id,
         "players": [anna.username, vasyl.username],
-        "parameters": {},
+        "parameters": parameters,
         "variant": variant_data,
     }
     call_game_request_api(
