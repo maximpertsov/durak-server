@@ -23,8 +23,11 @@ class GameRequestSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         variant, _ = GameVariant.objects.get_or_create(**validated_data.pop("variant"))
         instance = GameRequest.objects.create(variant=variant, **validated_data)
-        instance.players.set([self.context["request"].user])
+        instance.players.set([self.get_request_user()])
         return instance
+
+    def get_request_user(self):
+        return self.context["request"].user
 
     def to_representation(self, instance):
         result = super().to_representation(instance)
