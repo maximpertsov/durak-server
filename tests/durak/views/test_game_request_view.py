@@ -6,47 +6,38 @@ import pytest
 
 
 @pytest.fixture
-def assert_user_game_requests(call_api):
-    def wrapped(user, response_json):
+def assert_list_game_requests(call_api):
+    def wrapped(user, response_data):
         url = "/api/game/request"
         response = call_api("get", url, user=user)
         assert response.status_code == 200
-        assert response.json() == response_json
+        assert response.json() == response_data
+
+    return wrapped
+
+
+@pytest.fixture
+def assert_create_game_request(call_api):
+    def wrapped(user, payload, response_data):
+        response = call_api("post", "/api/game/request", payload=payload, user=user,)
+        assert response.status_code == 201
+        assert response.data == response_data
 
     return wrapped
 
 
 @pytest.mark.django_db
-def test_create_game_request(call_api, assert_user_game_requests, anna, vasyl):
-    assert_user_game_requests(anna, [])
-
-    response = call_api(
-        "post",
-        "/api/game/request",
-        payload={
-            "parameters": {},
-            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
-        },
-        user=vasyl,
-    )
-    assert response.status_code == 201
-
-    assert_user_game_requests(
-        anna,
-        [
-            {
-                "id": 1,
-                "parameters": {},
-                "players": [vasyl.username],
-                "variant": {
-                    "lowest_rank": "6",
-                    "attack_limit": 100,
-                    "with_passing": True,
-                },
-            }
-        ],
-    )
-
+def test_create_game_request(
+    call_api, assert_list_game_requests, assert_create_game_request, anna, vasyl
+):
+    assert_list_game_requests(anna, [])
+    payload = {
+        "parameters": {},
+        "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+    }
+    expected_response = {"id": 1, "players": [vasyl.username], **payload}
+    assert_create_game_request(vasyl, payload, expected_response)
+    assert_list_game_requests(anna, [expected_response])
 
 #
 #
