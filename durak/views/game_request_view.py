@@ -1,7 +1,6 @@
 from django.db import transaction
 from rest_framework import serializers
-from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin, ListModelMixin,
-                                   UpdateModelMixin)
+from rest_framework.mixins import CreateModelMixin, ListModelMixin, UpdateModelMixin
 from rest_framework.viewsets import GenericViewSet
 
 from durak.models import GameRequest, GameVariant
@@ -47,6 +46,7 @@ class GameRequestSerializer(serializers.ModelSerializer):
 
         if instance.players.count() == instance.parameters["player_count"]:
             self.create_game(instance)
+            instance.delete()
 
         return instance
 
@@ -81,10 +81,7 @@ class GameRequestSerializer(serializers.ModelSerializer):
 
 
 class GameRequestView(
-    ListModelMixin,
-    CreateModelMixin,
-    UpdateModelMixin,
-    GenericViewSet,
+    ListModelMixin, CreateModelMixin, UpdateModelMixin, GenericViewSet,
 ):
     serializer_class = GameRequestSerializer
     queryset = GameRequest.objects.all()
