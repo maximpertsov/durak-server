@@ -49,6 +49,8 @@ class GameResult(models.Model):
 
 class Game(models.Model):
     objects = GameManager()
+
+    created_at = models.DateTimeField(auto_now_add=True)
     slug = models.CharField(max_length=64, unique=True, editable=False)
     players = models.ManyToManyField(User, through="player")
     variant = models.ForeignKey(GameVariant, on_delete=models.PROTECT)

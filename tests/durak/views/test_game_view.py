@@ -19,7 +19,7 @@ def cards(card_factory):
 @pytest.fixture
 def game_with_players(game_factory, game_variant_factory, player_factory, cards, users):
     variant = game_variant_factory(lowest_rank="2", attack_limit=6, with_passing=True)
-    game = game_factory(slug="abc123", seed=0.1, variant=variant)
+    game = game_factory(slug="abc123", seed=0.1, variant=variant,)
     for user in users:
         player_factory(game=game, user=user)
     return game

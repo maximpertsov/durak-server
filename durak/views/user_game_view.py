@@ -9,7 +9,7 @@ from durak.views.game_view import GameVariantSerializer
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ["slug", "players", "variant"]
+        fields = ["created_at", "slug", "players", "variant"]
 
     players = serializers.SlugRelatedField(
         "username", queryset=User.objects.all(), many=True
