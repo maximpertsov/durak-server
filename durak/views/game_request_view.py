@@ -38,10 +38,6 @@ class GameRequestSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def update(self, instance, validated_data):
         instance = super().update(instance, validated_data)
-
-        if instance.players.count() >= instance.parameters["player_count"]:
-            raise serializers.ValidationError("Game is full")
-
         instance.players.add(self.get_request_user())
 
         if instance.players.count() == instance.parameters["player_count"]:

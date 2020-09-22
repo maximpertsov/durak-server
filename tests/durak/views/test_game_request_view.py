@@ -115,10 +115,11 @@ def test_join_full_game(call_game_request_api, anna, vasyl, igor, grusha, varian
             "patch", pk=game_request_id, user=igor, status_code=200
         ).json()
     )
+    # game request is deleted
     call_game_request_api(
         "patch",
         pk=game_request_id,
         user=grusha,
-        status_code=400,
-        response_data=["Game is full"],
+        status_code=404,
+        response_data={"detail": "Not found."},
     )
