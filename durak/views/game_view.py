@@ -47,14 +47,10 @@ class GameSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation["players"] = self._flattened_and_ordered_players(representation)
         representation["seed"] = instance.seed
-        representation["hands"] = self._hands(representation)
         return representation
 
     def _flattened_and_ordered_players(self, representation):
         return [player["user"] for player in representation["players"]]
-
-    def _hands(self, representation):
-        return {player: [] for player in representation["players"]}
 
 
 class GameView(CreateModelMixin, RetrieveModelMixin, GenericViewSet):

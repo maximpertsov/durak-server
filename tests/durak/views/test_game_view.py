@@ -32,7 +32,6 @@ def test_get_game(call_api, game_with_players):
     assert response.status_code == 200
     assert response.json() == {
         "players": ["anna", "vasyl", "igor", "grusha"],
-        "hands": {"anna": [], "vasyl": [], "igor": [], "grusha": []},
         "seed": game_with_players.seed,
         "slug": game_with_players.slug,
         "variant": {"lowest_rank": "2", "attack_limit": 6, "with_passing": True},
@@ -60,7 +59,6 @@ def test_create_game(call_api, users, cards):
         pytest.fail()
 
     assert set(data["players"]) == set(["anna", "vasyl", "igor", "grusha"])
-    assert data["hands"] == {"anna": [], "vasyl": [], "igor": [], "grusha": []}
     assert data["variant"] == {
         "lowest_rank": "6",
         "attack_limit": 100,
