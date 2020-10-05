@@ -1,5 +1,3 @@
-from random import Random
-
 from django.contrib.auth.models import User
 from django.db import transaction
 from rest_framework import serializers
@@ -7,7 +5,7 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 
-from durak.models import Card, Game, GameVariant, Player
+from durak.models import Game, GameVariant, Player
 
 
 class GameVariantSerializer(serializers.ModelSerializer):
@@ -47,31 +45,13 @@ class GameSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation["draw_pile"] = self._draw_pile(instance)
         representation["players"] = self._flattened_and_ordered_players(representation)
-        representation["trump_suit"] = self._trump_suit(representation)
+        representation["seed"] = instance.seed
         representation["hands"] = self._hands(representation)
         return representation
 
-    def _draw_pile(self, instance):
-        # shuffle
-        cards = [
-            {"card": card.abbreviated(), "suit": card.suit, "rank": card.rank}
-            for card in Card.objects.all()
-        ]
-        Random(instance.seed).shuffle(cards)
-
-        # filter cards
-        lowest_rank = instance.variant.lowest_rank
-        return [
-            card for card in cards if lowest_rank == "2" or card["rank"] not in "2345"
-        ]
-
     def _flattened_and_ordered_players(self, representation):
         return [player["user"] for player in representation["players"]]
-
-    def _trump_suit(self, representation):
-        return representation["draw_pile"][-1].get("suit")
 
     def _hands(self, representation):
         return {player: [] for player in representation["players"]}
