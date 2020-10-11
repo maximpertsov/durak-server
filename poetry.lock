@@ -158,6 +158,14 @@ Django = ">=2.0"
 
 [[package]]
 category = "main"
+description = "An extension of django rest framework, providing a configurable password reset strategy"
+name = "django-rest-passwordreset"
+optional = false
+python-versions = "*"
+version = "1.1.0"
+
+[[package]]
+category = "main"
 description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
@@ -804,7 +812,7 @@ version = "5.1.0"
 brotli = ["brotli"]
 
 [metadata]
-content-hash = "7469da700360611ecd2d8e04a68b90270c2eb79b93580df6b594843d3b84f02a"
+content-hash = "0bbe15dd18c33ed2db2885f0455181346dd8e16b28f8631010ea856122f111ce"
 lock-version = "1.0"
 python-versions = "^3.8,<3.9"
 
@@ -900,6 +908,10 @@ django = [
 django-cors-headers = [
     {file = "django-cors-headers-3.4.0.tar.gz", hash = "sha256:f5218f2f0bb1210563ff87687afbf10786e080d8494a248e705507ebd92d7153"},
     {file = "django_cors_headers-3.4.0-py3-none-any.whl", hash = "sha256:5240062ef0b16668ce8a5f43324c388d65f5439e1a30e22c38684d5ddaff0d15"},
+]
+django-rest-passwordreset = [
+    {file = "django-rest-passwordreset-1.1.0.tar.gz", hash = "sha256:3c97b25d35fb1f05d5b87596eb0c0f7cfce39e1803c9f4045ec42d567b03c85f"},
+    {file = "django_rest_passwordreset-1.1.0-py2.py3-none-any.whl", hash = "sha256:d1c8a97d5b4d35320bf2c6109f464500809705c5a4a4b182bbeeb3e57adf6e72"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.11.0-py3-none-any.whl", hash = "sha256:05809fc66e1c997fd9a32ea5730d9f4ba28b109b9da71fccfa5ff241201fd0a4"},
