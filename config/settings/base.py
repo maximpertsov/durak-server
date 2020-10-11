@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "durak.apps.DurakConfig",
     "corsheaders",
     "rest_framework",
+    "django_rest_passwordreset",
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
     ),
 }
+
+# Email
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
