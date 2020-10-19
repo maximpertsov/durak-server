@@ -23,11 +23,12 @@ jobs:
           name: Test
           command: poetry run pytest
   deploy:
+    docker:
+      - image: buildpack-deps:trusty
     steps:
       - checkout
       - run:
-          name: Deploy
-          # use circleci/heroku@1.2.2 when they support pushing to heroku main
+          name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
 
