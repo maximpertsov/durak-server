@@ -15,6 +15,7 @@ jobs:
           POSTGRES_USER: circleci
           POSTGRES_DB: circle_test
     steps:
+      - checkout
       - python/install-packages:
           pkg-manager: poetry
       - run:
