@@ -1,7 +1,6 @@
 version: 2.1
 
 orbs:
-  heroku: circleci/heroku@1.2.2
   python: circleci/python@1.2.0
 
 jobs:
@@ -23,14 +22,20 @@ jobs:
       - run:
           name: Test
           command: poetry run pytest
+  deploy:
+    steps:
+      - checkout
+      - run:
+          name: Deploy
+          # use circleci/heroku@1.2.2 when they support pushing to heroku main
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
 
 workflows:
   main:
     jobs:
       - test
-      - heroku/deploy-via-git:
-          name: deploy
-          branch: main
+      - deploy:
           requires:
             - test
           filters:
