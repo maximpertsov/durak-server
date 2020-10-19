@@ -10,7 +10,7 @@ jobs:
       - image: circleci/python:3.8.5
         environment:
           DATABASE_URL: postgresql://circleci@localhost:5432/circle_test
-      - image: circleci/postgres:12.4-alpine
+      - image: circleci/postgres:9.6-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_DB: circle_test
