@@ -30,6 +30,7 @@ workflows:
       - test
       - heroku/deploy-via-git:
           name: deploy
+          branch: main
           requires:
             - test
           filters:
