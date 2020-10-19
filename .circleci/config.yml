@@ -1,0 +1,37 @@
+version: 2.1
+
+orbs:
+  heroku: circleci/heroku@1.2.2
+  python: circleci/python@1.2.0
+
+jobs:
+  test:
+    docker:
+      - image: circleci/python:3.8.5
+        environment:
+          DATABASE_URL: postgresql://circleci@localhost:5432/circle_test
+      - image: circleci/postgres:9.6-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_DB: circle_test
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: poetry
+          cache-version: v2
+          include-python-in-cache-key: false
+      - run:
+          name: Test
+          command: poetry run pytest
+
+workflows:
+  main:
+    jobs:
+      - test
+      - heroku/deploy-via-git:
+          name: deploy
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
