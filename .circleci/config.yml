@@ -24,11 +24,7 @@ jobs:
 workflows:
   main:
     jobs:
-      - test:
-          name: test
-          pkg-manager: poetry
-          test-tool: pytest
-          version: 3.8.5
+      - test
       - heroku/deploy-via-git:
           name: deploy
           requires:
