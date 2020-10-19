@@ -19,6 +19,7 @@ jobs:
       - python/install-packages:
           pkg-manager: poetry
           cache-version: v2
+          include-python-in-cache-key: false
       - run:
           name: Test
           command: poetry run pytest
