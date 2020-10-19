@@ -9,6 +9,11 @@ workflows:
     jobs:
       - python/test:
           name: test
+          docker:
+          - image: circleci/postgres:12.4-alpine
+            environment:
+              POSTGRES_USER: circleci
+              POSTGRES_DB: circle_test
           pkg-manager: poetry
           test-tool: pytest
           version: 3.8.5
