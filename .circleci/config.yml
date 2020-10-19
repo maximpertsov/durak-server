@@ -18,6 +18,7 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: poetry
+          cache-version: v2
       - run:
           name: Test
           command: poetry run pytest
