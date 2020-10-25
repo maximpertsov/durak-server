@@ -14,3 +14,4 @@ class EventFactory(DjangoModelFactory):
     type = "performed_fake_event"
     payload = {}
     to_state = {}
+    version = 1
