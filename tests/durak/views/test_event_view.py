@@ -20,6 +20,7 @@ def test_get_events_for_game(call_api, game, user, event_factory):
                 "type": "performed_fake_event",
                 "payload": {},
                 "to_state": {},
+                "version": 1,
             }
         ]
     }
@@ -38,6 +39,7 @@ def test_create_event_for_game(call_api, game, user):
             "type": "fake_event",
             "payload": {},
             "to_state": {},
+            "version": 1,
         },
     )
     assert response.status_code == 201
@@ -58,6 +60,7 @@ def test_create_a_game_ending_event(call_api, game, user):
             "type": "fake_event",
             "payload": {},
             "to_state": {"durak": user.username},
+            "version": 1,
         },
     )
     assert response.status_code == 201
