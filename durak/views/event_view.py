@@ -21,14 +21,14 @@ class EventSerializer(serializers.ModelSerializer):
         return event
 
     def _finished_game(self, event):
-        durak = event.to_state.get("durak")
-        if not durak:
-            return
+        for player in event.to_state.get("players", []):
+            if "durak" not in player.get("state", []):
+                continue
 
-        event.game.result = GameResult.objects.create(
-            durak=User.objects.get(username=durak)
-        )
-        event.game.save()
+            user = User.objects.get(username=player["id"])
+            event.game.result = GameResult.objects.create(durak=user)
+            event.game.save()
+            return
 
 
 class EventView(ListModelMixin, CreateModelMixin, GenericViewSet):

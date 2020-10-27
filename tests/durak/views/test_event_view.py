@@ -59,7 +59,7 @@ def test_create_a_game_ending_event(call_api, game, user):
             "user": user.username,
             "type": "fake_event",
             "payload": {},
-            "to_state": {"durak": user.username},
+            "to_state": {"players": [{"id": user.username, "state": ["durak"]}]},
             "version": 1,
         },
     )
