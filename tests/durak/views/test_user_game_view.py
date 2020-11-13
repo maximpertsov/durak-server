@@ -25,13 +25,21 @@ def test_get_user_game(call_api, create_game_with_players, anna, vasyl, igor, gr
             "created_at": game1.created_at.isoformat().replace("+00:00", "Z"),
             "slug": game1.slug,
             "players": ["anna", "vasyl"],
-            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
+            "variant": {
+                "lowest_rank": "6",
+                "attack_limit": "six",
+                "with_passing": True,
+            },
         },
         {
             "created_at": game2.created_at.isoformat().replace("+00:00", "Z"),
             "slug": game2.slug,
             "players": ["anna", "vasyl", "igor"],
-            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
+            "variant": {
+                "lowest_rank": "6",
+                "attack_limit": "six",
+                "with_passing": True,
+            },
         },
     ]
 
@@ -54,6 +62,10 @@ def test_get_active_user_games(
             "created_at": game1.created_at.isoformat().replace("+00:00", "Z"),
             "slug": game1.slug,
             "players": ["anna", "vasyl"],
-            "variant": {"lowest_rank": "6", "attack_limit": 6, "with_passing": True},
+            "variant": {
+                "lowest_rank": "6",
+                "attack_limit": "six",
+                "with_passing": True,
+            },
         },
     ]

@@ -29,7 +29,7 @@ def call_game_request_api(call_api):
 
 @pytest.fixture
 def variant_data():
-    return {"lowest_rank": "6", "attack_limit": 100, "with_passing": True}
+    return {"lowest_rank": "6", "attack_limit": "hand", "with_passing": True}
 
 
 @pytest.mark.django_db
@@ -59,7 +59,9 @@ def test_create_game_request(call_game_request_api, anna, vasyl, variant_data):
 def test_join_game_request(call_game_request_api, anna, vasyl, variant_data):
     parameters = {"player_count": 3}
     create_response = call_game_request_api(
-        "post", user=vasyl, payload={"parameters": parameters, "variant": variant_data},
+        "post",
+        user=vasyl,
+        payload={"parameters": parameters, "variant": variant_data},
     )
 
     game_request_id = create_response.json()["id"]
