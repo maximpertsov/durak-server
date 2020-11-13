@@ -9,7 +9,7 @@ class GameVariantFactory(DjangoModelFactory):
         django_get_or_create = ("lowest_rank", "attack_limit", "with_passing")
 
     lowest_rank = "6"
-    attack_limit = 6
+    attack_limit = "six"
     with_passing = True
 
 

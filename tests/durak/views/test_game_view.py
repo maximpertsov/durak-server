@@ -18,8 +18,14 @@ def cards(card_factory):
 
 @pytest.fixture
 def game_with_players(game_factory, game_variant_factory, player_factory, cards, users):
-    variant = game_variant_factory(lowest_rank="2", attack_limit=6, with_passing=True)
-    game = game_factory(slug="abc123", seed=0.1, variant=variant,)
+    variant = game_variant_factory(
+        lowest_rank="2", attack_limit="six", with_passing=True
+    )
+    game = game_factory(
+        slug="abc123",
+        seed=0.1,
+        variant=variant,
+    )
     for user in users:
         player_factory(game=game, user=user)
     return game
@@ -34,7 +40,7 @@ def test_get_game(call_api, game_with_players):
         "players": ["anna", "vasyl", "igor", "grusha"],
         "seed": game_with_players.seed,
         "slug": game_with_players.slug,
-        "variant": {"lowest_rank": "2", "attack_limit": 6, "with_passing": True},
+        "variant": {"lowest_rank": "2", "attack_limit": "six", "with_passing": True},
     }
 
 
@@ -45,7 +51,11 @@ def test_create_game(call_api, users, cards):
         "post",
         url,
         payload={
-            "variant": {"lowest_rank": "6", "attack_limit": 100, "with_passing": True},
+            "variant": {
+                "lowest_rank": "6",
+                "attack_limit": "hand",
+                "with_passing": True,
+            },
             "players": [{"user": user.username} for user in users],
         },
     )
@@ -61,6 +71,6 @@ def test_create_game(call_api, users, cards):
     assert set(data["players"]) == set(["anna", "vasyl", "igor", "grusha"])
     assert data["variant"] == {
         "lowest_rank": "6",
-        "attack_limit": 100,
+        "attack_limit": "hand",
         "with_passing": True,
     }

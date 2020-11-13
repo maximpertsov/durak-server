@@ -36,8 +36,10 @@ class GameVariant(models.Model):
         choices=[(Rank.TWO.value, Rank.TWO.label), (Rank.SIX.value, Rank.SIX.label)],
         default=Rank.SIX.value,
     )
-    attack_limit = models.IntegerField(
-        choices=[(6, "Standard"), (100, "Unlimited")], default=6
+    attack_limit = models.CharField(
+        max_length=20,
+        choices=[("six", "Six"), ("hand", "Hand"), ("unlimited", "Unlimited")],
+        default="six",
     )
     with_passing = models.BooleanField(default=False)
 
