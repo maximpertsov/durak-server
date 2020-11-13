@@ -27,7 +27,6 @@ class Migration(migrations.Migration):
                 choices=[(6, "Standard"), (100, "Unlimited")], default=6
             ),
         ),
-        migrations.RunPython(forwards, migrations.RunPython.noop),
         migrations.AlterField(
             model_name="gamevariant",
             name="attack_limit",
@@ -37,6 +36,7 @@ class Migration(migrations.Migration):
                 max_length=20,
             ),
         ),
+        migrations.RunPython(forwards, migrations.RunPython.noop),
         migrations.AlterUniqueTogether(
             name="gamevariant",
             unique_together={
