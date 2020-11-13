@@ -29,18 +29,12 @@ class GameManager(models.Manager):
 
 class GameVariant(models.Model):
     class Meta:
-        unique_together = [
-            ("lowest_rank", "attack_limit_old", "attack_limit", "with_passing")
-        ]
+        unique_together = [("lowest_rank", "attack_limit", "with_passing")]
 
     lowest_rank = models.CharField(
         max_length=10,
         choices=[(Rank.TWO.value, Rank.TWO.label), (Rank.SIX.value, Rank.SIX.label)],
         default=Rank.SIX.value,
-    )
-    attack_limit_old = models.IntegerField(
-        choices=[(6, "Standard"), (100, "Unlimited")],
-        default=6,
     )
     attack_limit = models.CharField(
         max_length=20,
