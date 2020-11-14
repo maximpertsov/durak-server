@@ -3,7 +3,14 @@
 from django.db import migrations, models
 
 
-def forwards(apps, schema_editor):
+def transfer_values(apps, schema_editor):
+    GameVariant = apps.get_model("durak", "GameVariant")
+    for variant in GameVariant.objects.all():
+        variant.attack_limit_old = variant.attack_limit
+        variant.save()
+
+
+def convert_values(apps, schema_editor):
     GameVariant = apps.get_model("durak", "GameVariant")
     for variant in GameVariant.objects.all():
         if variant.attack_limit_old == 6:
@@ -27,6 +34,7 @@ class Migration(migrations.Migration):
                 choices=[(6, "Standard"), (100, "Unlimited")], default=6
             ),
         ),
+        migrations.RunPython(transfer_values, migrations.RunPython.noop),
         migrations.AlterField(
             model_name="gamevariant",
             name="attack_limit",
@@ -36,7 +44,7 @@ class Migration(migrations.Migration):
                 max_length=20,
             ),
         ),
-        migrations.RunPython(forwards, migrations.RunPython.noop),
+        migrations.RunPython(convert_values, migrations.RunPython.noop),
         migrations.AlterUniqueTogether(
             name="gamevariant",
             unique_together={
