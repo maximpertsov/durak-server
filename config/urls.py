@@ -20,6 +20,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from durak import views
 
 urlpatterns = [
+    path("status", views.status_view),
     path(
         "api/game/<str:slug>/events",
         views.EventView.as_view({"get": "list", "post": "create"}),
@@ -32,7 +33,10 @@ urlpatterns = [
         "api/game/request",
         views.GameRequestView.as_view({"get": "list", "post": "create"}),
     ),
-    path("api/game", views.GameView.as_view({"post": "create"}),),
+    path(
+        "api/game",
+        views.GameView.as_view({"post": "create"}),
+    ),
     path("api/game/<str:slug>", views.GameView.as_view({"get": "retrieve"})),
     path("api/games/me", views.UserGameView.as_view()),
     path("api/token", TokenObtainPairView.as_view(), name="token_obtain_pair"),
